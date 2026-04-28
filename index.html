@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anita Brau — AI Linguistic Evaluator</title>
+  <meta name="description" content="AI Linguistic Evaluator specializing in LLM response assessment, data annotation, linguistic QA, and written feedback for AI training.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f7f4ef;
+      --surface: #faf8f4;
+      --surface-2: #f0ece4;
+      --border: rgba(40,37,29,0.12);
+      --text: #28251d;
+      --text-muted: #7a7468;
+      --text-faint: #b0ab9e;
+      --accent: #8b4513;
+      --accent-hover: #6b3410;
+      --accent-light: #f5ede4;
+      --font-display: 'Lora', Georgia, serif;
+      --font-body: 'Work Sans', system-ui, sans-serif;
+      --radius: 0.75rem;
+      --radius-sm: 0.375rem;
+      --shadow: 0 2px 12px rgba(40,37,29,0.08);
+      --shadow-lg: 0 8px 32px rgba(40,37,29,0.12);
+      --transition: 180ms cubic-bezier(0.16,1,0.3,1);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--accent-hover); }
+    .container { max-width: 900px; margin-inline: auto; padding-inline: 1.5rem; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(247,244,239,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+    }
+    nav .inner {
+      max-width: 900px; margin-inline: auto; padding-inline: 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--text); letter-spacing: -0.01em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--text-muted); }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      padding: clamp(4rem,10vw,8rem) 0 clamp(3rem,6vw,5rem);
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent);
+      background: var(--accent-light);
+      padding: 0.3rem 0.8rem; border-radius: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 600; line-height: 1.15;
+      letter-spacing: -0.02em; color: var(--text);
+      max-width: 18ch; margin-bottom: 1.25rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-sub {
+      font-size: 1.1rem; color: var(--text-muted);
+      max-width: 55ch; line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--accent); color: #fff;
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--radius); font-weight: 600;
+      font-size: 0.9rem; transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .hero-cta:hover { background: var(--accent-hover); color: #fff; transform: translateY(-1px); box-shadow: var(--shadow); }
+    .hero-pills {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem;
+    }
+    .pill {
+      font-size: 0.8rem; font-weight: 500;
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.85rem; border-radius: 2rem;
+      color: var(--text-muted); background: var(--surface);
+    }
+
+    /* SECTIONS */
+    section { padding: clamp(3rem,7vw,5rem) 0; border-bottom: 1px solid var(--border); }
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem,3vw,2.2rem);
+      font-weight: 600; letter-spacing: -0.02em;
+      color: var(--text); margin-bottom: 1rem; line-height: 1.2;
+    }
+    .section-intro {
+      font-size: 1rem; color: var(--text-muted);
+      max-width: 60ch; line-height: 1.7; margin-bottom: 2.5rem;
+    }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .about-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+    }
+    .about-card h3 {
+      font-family: var(--font-display); font-size: 1rem;
+      font-weight: 600; margin-bottom: 0.5rem; color: var(--text);
+    }
+    .about-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 1rem; }
+    .skill-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .skill-item:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+    .skill-icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .skill-item h3 { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+    .skill-item p { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; gap: 1.5rem; }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .project-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .project-type {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .project-card h3 {
+      font-family: var(--font-display); font-size: 1.3rem;
+      font-weight: 600; color: var(--text); margin-bottom: 0.75rem;
+    }
+    .project-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.25rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
+    .tag {
+      font-size: 0.75rem; font-weight: 500;
+      background: var(--accent-light); color: var(--accent);
+      padding: 0.2rem 0.6rem; border-radius: 2rem;
+    }
+    .project-link {
+      font-size: 0.875rem; font-weight: 600; color: var(--accent);
+      display: inline-flex; align-items: center; gap: 0.4rem;
+    }
+    .project-link:hover { color: var(--accent-hover); }
+
+    /* RUBRIC TABLE */
+    .rubric-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.85rem; }
+    .rubric-table th {
+      background: var(--surface-2); text-align: left;
+      padding: 0.6rem 1rem; font-weight: 600; font-size: 0.75rem;
+      letter-spacing: 0.05em; color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .rubric-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+    .rubric-table tr:last-child td { border-bottom: none; }
+    .score-badge {
+      display: inline-block; width: 1.5rem; height: 1.5rem;
+      background: var(--accent); color: #fff;
+      border-radius: 50%; text-align: center; line-height: 1.5rem;
+      font-weight: 700; font-size: 0.8rem;
+    }
+    .score-badge.s3 { background: #a0845c; }
+    .score-badge.s2 { background: #c4a882; }
+    .score-badge.s1 { background: var(--text-faint); }
+
+    /* FEEDBACK EXAMPLE */
+    .feedback-example {
+      background: var(--surface-2); border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.25rem 1.5rem; margin-top: 1.25rem; font-size: 0.9rem;
+    }
+    .feedback-example .timestamp { color: var(--accent); font-weight: 600; font-size: 0.8rem; }
+    .feedback-example .fb-issue { color: var(--text); margin: 0.4rem 0; }
+    .feedback-example .fb-fix { color: var(--text-muted); font-style: italic; }
+
+    /* EXPERIENCE */
+    .timeline { display: flex; flex-direction: column; gap: 1.5rem; }
+    .timeline-item { display: grid; grid-template-columns: 140px 1fr; gap: 1.5rem; }
+    .timeline-year { font-size: 0.8rem; font-weight: 600; color: var(--text-faint); padding-top: 0.25rem; }
+    .timeline-content h3 { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+    .timeline-content p { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* CONTACT */
+    .contact-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2.5rem;
+      text-align: center;
+    }
+    .contact-box h2 {
+      font-family: var(--font-display); font-size: 1.8rem;
+      font-weight: 600; margin-bottom: 0.75rem; color: var(--text);
+    }
+    .contact-box p { color: var(--text-muted); margin-bottom: 2rem; max-width: 45ch; margin-inline: auto; }
+    .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .contact-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.7rem 1.5rem; border-radius: var(--radius);
+      font-weight: 600; font-size: 0.875rem;
+      border: 1px solid var(--border);
+      background: var(--bg); color: var(--text);
+      transition: all var(--transition);
+    }
+    .contact-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .contact-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .contact-btn.primary:hover { background: var(--accent-hover); }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem 0; text-align: center;
+      font-size: 0.8rem; color: var(--text-faint);
+    }
+
+    /* MOBILE */
+    @media (max-width: 640px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 1fr; gap: 0.25rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <span class="nav-logo">Anita Brau</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-tag">Available for remote work</span>
+    <h1>AI <em>Linguistic</em> Evaluator &amp; Quality Specialist</h1>
+    <p class="hero-sub">
+      I assess AI-generated responses with a linguist's eye — identifying biases, verifying factual accuracy, and delivering structured feedback that helps language models improve.
+    </p>
+    <a href="#projects" class="hero-cta">View my work →</a>
+    <div class="hero-pills">
+      <span class="pill">LLM Evaluation</span>
+      <span class="pill">Linguistic QA</span>
+      <span class="pill">Data Annotation</span>
+      <span class="pill">Bias Detection</span>
+      <span class="pill">Italian · English</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">About</p>
+    <h2 class="section-title">Language meets machine intelligence</h2>
+    <p class="section-intro">
+      With a degree in Languages and a Master's in Anglophone Literature, I bring deep linguistic expertise to the evaluation of AI systems. I have worked across multiple platforms assessing model outputs, annotating training data, and ensuring quality at every step of the pipeline.
+    </p>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>Linguistic background</h3>
+        <p>Laurea in Lingue, Master's thesis on Anglophone Literature. Native Italian, fluent English. Experienced in translation quality assessment and localization QA.</p>
+      </div>
+      <div class="about-card">
+        <h3>AI evaluation expertise</h3>
+        <p>3+ years evaluating LLM responses across platforms including Outlier AI, Appen, Centific, and WeLo. Specialized in bias detection, factual accuracy, and structured feedback.</p>
+      </div>
+      <div class="about-card">
+        <h3>QA &amp; testing</h3>
+        <p>Bug reporting and web/app testing via TestIO and BetaTesting. Detailed, reproducible reports. Comfortable with developer tools, device testing, and structured QA workflows.</p>
+      </div>
+      <div class="about-card">
+        <h3>Currently learning</h3>
+        <p>Full-stack development (HTML, CSS, JavaScript, SQL) via Mimo. Building technical skills to complement linguistic expertise for senior evaluation roles.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label">Skills</p>
+    <h2 class="section-title">What I bring to every evaluation</h2>
+    <p class="section-intro">A combination of linguistic precision and methodological rigour.</p>
+    <div class="skills-grid">
+      <div class="skill-item">
+        <div class="skill-icon">🔍</div>
+        <h3>LLM Response Evaluation</h3>
+        <p>Accuracy, relevance, safety, tone, and completeness assessment</p>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">⚖️</div>
+        <h3>Bias Detection</h3>
+        <p>Authority, fluency, length, and personal experience biases</p>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">✍️</div>
+        <h3>Written Feedback</h3>
+        <p>Clear, timestamped, actionable feedback for model improvement</p>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">🌐</div>
+        <h3>Linguistic QA</h3>
+        <p>Italian localization review, translation quality assessment</p>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">🐛</div>
+        <h3>Bug Reporting</h3>
+        <p>Structured, reproducible reports for web and mobile apps</p>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">🎙️</div>
+        <h3>Audio &amp; Transcription</h3>
+        <p>TTS evaluation, audio tagging, and Italian transcription</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label">Projects</p>
+    <h2 class="section-title">Work samples</h2>
+    <p class="section-intro">Concrete examples of my evaluation methodology and output quality.</p>
+
+    <div class="projects-grid">
+
+      <!-- PROJECT 1: RUBRICA -->
+      <div class="project-card">
+        <p class="project-type">Evaluation Framework</p>
+        <h3>AI Evaluator Assessment Rubric</h3>
+        <p>
+          A structured scoring rubric for assessing AI evaluator competencies. Built from first principles, it covers five observable dimensions — each with a 1–4 scale and concrete anchor behaviours.
+        </p>
+        <div class="project-tags">
+          <span class="tag">Rubric Design</span>
+          <span class="tag">Bias Awareness</span>
+          <span class="tag">Metacognition</span>
+          <span class="tag">Score Calibration</span>
+        </div>
+
+        <table class="rubric-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Criterion</th>
+              <th>What it measures</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Bias Identification</td><td>Names ≥2 biases + countermeasure</td></tr>
+            <tr><td>2</td><td>Guideline Adherence</td><td>Cites criterion + justifies score</td></tr>
+            <tr><td>3</td><td>Feedback Quality</td><td>Timestamps + issue + solution</td></tr>
+            <tr><td>4</td><td>Score Calibration</td><td>Consistency + justified differences</td></tr>
+            <tr><td>5</td><td>Metacognition</td><td>Self-awareness of personal biases</td></tr>
+          </tbody>
+        </table>
+
+        <br>
+        <div style="overflow-x:auto;">
+          <table class="rubric-table">
+            <thead>
+              <tr><th>Score</th><th>Label</th><th>Description (Criterion 1 example)</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="score-badge">4</span></td>
+                <td><strong>Exemplary</strong></td>
+                <td>Names ≥2 biases, explains impact, provides ≥1 countermeasure with concrete example</td>
+              </tr>
+              <tr>
+                <td><span class="score-badge s3">3</span></td>
+                <td><strong>Advanced</strong></td>
+                <td>Names ≥2 biases, explains impact, but countermeasure is inadequate or absent</td>
+              </tr>
+              <tr>
+                <td><span class="score-badge s2">2</span></td>
+                <td><strong>Beginner</strong></td>
+                <td>Names only 1 bias or does not explain its impact on the evaluation</td>
+              </tr>
+              <tr>
+                <td><span class="score-badge s1">1</span></td>
+                <td><strong>Inadequate</strong></td>
+                <td>Does not name specific biases, vague or absent response</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <a href="https://github.com" class="project-link" target="_blank" rel="noopener noreferrer">View full rubric on GitHub →</a>
+      </div>
+
+      <!-- PROJECT 2: FEEDBACK -->
+      <div class="project-card">
+        <p class="project-type">Feedback Sample</p>
+        <h3>Written Feedback Examples</h3>
+        <p>
+          Examples of structured evaluator feedback on AI-generated responses. Each piece of feedback cites specific text with timestamps, identifies the issue, and proposes a concrete improvement — following the methodology outlined in the rubric above.
+        </p>
+        <div class="project-tags">
+          <span class="tag">Written Feedback</span>
+          <span class="tag">Timestamped Citations</span>
+          <span class="tag">Actionable</span>
+          <span class="tag">Italian · English</span>
+        </div>
+
+        <div class="feedback-example">
+          <p class="timestamp">[00:14–00:22]</p>
+          <p class="fb-issue"><strong>Issue:</strong> The model states that "the population of Rome is approximately 4 million" without qualifying the source or date. This is factually imprecise — the city proper has approximately 2.8 million residents (ISTAT 2023).</p>
+          <p class="fb-fix">Suggested fix: Replace with "approximately 2.8 million (ISTAT 2023)" or acknowledge uncertainty with "estimates vary between 2.8M and 4.3M depending on metropolitan area definition."</p>
+        </div>
+
+        <div class="feedback-example" style="margin-top:1rem;">
+          <p class="timestamp">[01:05–01:18]</p>
+          <p class="fb-issue"><strong>Issue:</strong> Length bias risk — this section is 340 words but adds no new information beyond what was stated in the first 80 words. A evaluator may incorrectly interpret verbosity as depth.</p>
+          <p class="fb-fix">Suggested fix: Condense to 80–100 words, keeping only the two core arguments. This also improves fluency and clarity scores.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">Experience</p>
+    <h2 class="section-title">Platforms &amp; roles</h2>
+    <p class="section-intro">3+ years across AI training, linguistic evaluation, and quality assurance.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <span class="timeline-year">2023–present</span>
+        <div class="timeline-content">
+          <h3>AI Response Evaluator — Outlier AI, WeLo Data</h3>
+          <p>LLM response assessment, prompt evaluation, written feedback for model training</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <span class="timeline-year">2022–present</span>
+        <div class="timeline-content">
+          <h3>Data Annotator &amp; Linguistic Reviewer — Appen, Centific</h3>
+          <p>Italian text annotation, translation quality assessment, localization QA</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <span class="timeline-year">2022–present</span>
+        <div class="timeline-content">
+          <h3>QA Tester — TestIO, BetaTesting</h3>
+          <p>Web and mobile app testing, bug reporting, exploratory and structured test cycles</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <span class="timeline-year">2021–2023</span>
+        <div class="timeline-content">
+          <h3>Audio Specialist — CrowdGen, Firstsource</h3>
+          <p>TTS evaluation, Italian voice recording, audio tagging and transcription</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <span class="timeline-year">2020–2022</span>
+        <div class="timeline-content">
+          <h3>Cultural Mediator — PNRR Projects (×2)</h3>
+          <p>Intercultural mediation, community linguistic support in Sardinia</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="border-bottom:none;">
+  <div class="container">
+    <div class="contact-box">
+      <h2>Let's work together</h2>
+      <p>I'm available for AI evaluation contracts, linguistic QA projects, and data annotation roles — remote, full-time or part-time.</p>
+      <div class="contact-links">
+        <a href="mailto:anita.brau@email.com" class="contact-btn primary">✉ Send an email</a>
+        <a href="https://linkedin.com" class="contact-btn" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com" class="contact-btn" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Anita Brau · AI Linguistic Evaluator · Rome, Italy</p>
+  </div>
+</footer>
+
+</body>
+</html>
